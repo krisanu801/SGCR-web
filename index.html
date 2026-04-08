@@ -13,7 +13,7 @@
             --accent-color: #3498db;
             --text-color: #333;
             --bg-color: #fff;
-            --max-width: 900px;
+            --max-width: 1000px;
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -53,7 +53,7 @@
             padding: 2rem;
         }
         section {
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
         h2 {
             font-family: 'Source Serif Pro', serif;
@@ -66,10 +66,11 @@
             padding: 2rem;
             border-radius: 8px;
             font-style: italic;
+            margin-bottom: 3rem;
         }
         .figure {
             text-align: center;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
         }
         .figure img {
             max-width: 100%;
@@ -79,25 +80,30 @@
         }
         .caption {
             margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #666;
+            font-size: 0.95rem;
+            color: #555;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         .math-block {
             overflow-x: auto;
-            padding: 1rem 0;
+            padding: 1.5rem 0;
+            text-align: center;
         }
         .links {
             margin-top: 2rem;
             display: flex;
             justify-content: center;
             gap: 1.5rem;
+            flex-wrap: wrap;
         }
         .links a {
             text-decoration: none;
             color: var(--accent-color);
             font-weight: 600;
             border: 1px solid var(--accent-color);
-            padding: 0.5rem 1rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 4px;
             transition: all 0.3s;
         }
@@ -105,11 +111,34 @@
             background: var(--accent-color);
             color: #fff;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #fcfcfc;
+        }
+        .highlight {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 3rem;
             color: #888;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            border-top: 1px solid #eee;
         }
     </style>
 </head>
@@ -121,8 +150,9 @@
     <div class="affiliation">Indian Institute of Technology Bombay</div>
     <div class="venue">Under Review at ACMMM Brave New Ideas Track 2026</div>
     <div class="links">
-        <a href="#">Paper (ArXiv Soon)</a>
-        <a href="https://github.com/krisanu-sarkar">GitHub</a>
+        <a href="https://drive.google.com/file/d/1Z9Bi9Hq36aZA-bhx18f5WDdh2SaW9VIx/view?usp=sharing" target="_blank">Paper (PDF)</a>
+        <a href="https://github.com/krisanu801/SGCR" target="_blank">Code & Data</a>
+        <a href="https://arxiv.org/search/cs?query=Sarkar%2C+Krisanu&searchtype=author&abstracts=show&order=-announced_date_first&size=50" target="_blank">ArXiv Profile</a>
     </div>
 </header>
 
@@ -154,40 +184,99 @@
         <h2>Spectral Analysis & Diagnostics</h2>
         <div class="figure">
             <img src="spectral_analysis.png" alt="Spectral Analysis">
-            <div class="caption">Figure 1: Laplacian Eigenvalue Spectra and Functional Map Diagnostics. The spectra (top-left) are remarkably similar, but the functional map matrix (bottom-left) shows poor diagonal dominance, indicating unaligned bases.</div>
+            <div class="caption"><strong>Figure 1: Spectral diagnostics for the DINOv2–MiniLM encoder pair.</strong> Top left: Laplacian eigenvalue spectra are quantitatively similar. Top right: eigenvalue ratio \(\lambda_i^v / \lambda_i^t\) deviates from 1.0 primarily at low frequencies. Bottom left: absolute values of the functional map matrix \(|C|\); energy is scattered across off-diagonal bands. Bottom right: diagonal energy fraction \(\rho_i\) per spectral index; all values are below 0.2.</div>
         </div>
         <p>
             We propose three diagnostic quantities to characterize geometric compatibility:
         </p>
         <ul>
-            <li><strong>Normalized Spectral Distance:</strong> Measures similarity in intrinsic complexity.</li>
-            <li><strong>Diagonal Dominance:</strong> Indicates shared spectral orientation.</li>
-            <li><strong>Orthogonality Error:</strong> Measures how close the correspondence is to an isometry.</li>
+            <li><strong>Normalized Spectral Distance (\(d_{spec}\)):</strong> Measures similarity in intrinsic complexity. Observed: <span class="highlight">0.043</span> (Ideal: < 0.01).</li>
+            <li><strong>Diagonal Dominance (\(\bar{\rho}\)):</strong> Indicates shared spectral orientation. Observed: <span class="highlight">< 0.05</span> (Ideal: > 0.7).</li>
+            <li><strong>Orthogonality Error (\(\epsilon_{orth}\)):</strong> Measures how close the correspondence is to an isometry. Observed: <span class="highlight">70.15</span> (Ideal: < 0.1).</li>
         </ul>
-        <p>
-            Our findings show a <strong>Spectral Complexity–Orientation Gap</strong>: models converge in <em>how much</em> structure they capture (similar eigenvalues) but not in <em>how they organize</em> it (unaligned eigenvectors).
-        </p>
     </section>
 
     <section>
         <h2>Experimental Results</h2>
         <div class="figure">
             <img src="results.png" alt="Retrieval Results">
-            <div class="caption">Figure 2: Cross-modal retrieval performance (Image to Text). Functional maps (FMap) are compared against Procrustes, CCA, and Relative Representations.</div>
+            <div class="caption"><strong>Figure 2: Image-to-text recall as a function of anchor budget \(|S|\).</strong> The functional map (blue) improves with more anchors but grows substantially slower than Procrustes (orange) and relative representations (green).</div>
         </div>
-        <p>
-            While functional maps provide deep geometric insight, they currently underperform simpler baselines like Procrustes alignment for retrieval. This is primarily because the isometry assumption—that the mapping preserves distances perfectly—does not hold for independently trained encoders.
-        </p>
+
+        <h3>Retrieval Performance Comparison</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Anchors</th>
+                    <th>i2t R@1</th>
+                    <th>i2t R@5</th>
+                    <th>t2i R@1</th>
+                    <th>t2i R@5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Raw Cosine</td>
+                    <td>0</td>
+                    <td>0.1</td>
+                    <td>0.1</td>
+                    <td>0.1</td>
+                    <td>0.5</td>
+                </tr>
+                <tr>
+                    <td>FMap Unsupervised (HKS)</td>
+                    <td>0</td>
+                    <td>0.7</td>
+                    <td>0.7</td>
+                    <td>0.4</td>
+                    <td>1.7</td>
+                </tr>
+                <tr>
+                    <td>FMap (ours)</td>
+                    <td>100</td>
+                    <td>2.2</td>
+                    <td>2.2</td>
+                    <td>1.9</td>
+                    <td>9.3</td>
+                </tr>
+                <tr>
+                    <td>Procrustes</td>
+                    <td>100</td>
+                    <td>12.1</td>
+                    <td>12.1</td>
+                    <td>10.8</td>
+                    <td>23.0</td>
+                </tr>
+                <tr>
+                    <td>Relative Reps</td>
+                    <td>100</td>
+                    <td>13.4</td>
+                    <td>13.4</td>
+                    <td>12.1</td>
+                    <td>27.5</td>
+                </tr>
+                <tr style="border-top: 2px solid #ddd;">
+                    <td><strong>CLIP (ViT-B/32)</strong></td>
+                    <td>400M</td>
+                    <td><strong>79.5</strong></td>
+                    <td><strong>95.0</strong></td>
+                    <td><strong>58.8</strong></td>
+                    <td><strong>83.4</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
         <div class="figure">
             <img src="truncation_effect.png" alt="Truncation Effect">
-            <div class="caption">Figure 3: Effect of spectral truncation on retrieval performance. Increasing the spectral dimension \(k\) generally improves recall but highlights the orientation gap.</div>
+            <div class="caption"><strong>Figure 3: Effect of spectral truncation on retrieval.</strong> Performance increases with spectral dimension \(k_s\), but remains an order of magnitude below ambient-space baselines due to eigenvector misalignment.</div>
         </div>
     </section>
 
     <section>
         <h2>Conclusion</h2>
         <p>
-            This work provides a finer-grained measurement tool for the Platonic Representation Hypothesis. By separating eigenvalue spectra (complexity) from eigenvector correspondence (orientation), we show that while foundation models converge toward shared statistical representations, their internal coordinate systems remain decoupled.
+            Our findings reveal a <strong>Spectral Complexity–Orientation Gap</strong>: independently trained encoders converge in <em>how much</em> structure they capture (similar eigenvalues) but not in <em>how they organize</em> it (unaligned eigenvectors). This work provides a finer-grained measurement tool for the Platonic Representation Hypothesis, showing that while foundation models converge toward shared statistical representations, their internal coordinate systems remain decoupled.
         </p>
     </section>
 </main>
