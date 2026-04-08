@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On the Spectral Geometry of Cross-Modal Representations</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --text-color: #333;
+            --bg-color: #fff;
+            --max-width: 900px;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            background: linear-gradient(to bottom, #f8f9fa, #fff);
+        }
+        h1 {
+            font-family: 'Source Serif Pro', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        .authors {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .affiliation {
+            font-style: italic;
+            color: #666;
+        }
+        .venue {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-family: 'Source Serif Pro', serif;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .abstract {
+            background: #f9f9f9;
+            padding: 2rem;
+            border-radius: 8px;
+            font-style: italic;
+        }
+        .figure {
+            text-align: center;
+            margin: 2rem 0;
+        }
+        .figure img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .caption {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .math-block {
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+        .links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .links a {
+            text-decoration: none;
+            color: var(--accent-color);
+            font-weight: 600;
+            border: 1px solid var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .links a:hover {
+            background: var(--accent-color);
+            color: #fff;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>On the Spectral Geometry of Cross-Modal Representations</h1>
+    <div class="authors"><strong>Krisanu Sarkar</strong></div>
+    <div class="affiliation">Indian Institute of Technology Bombay</div>
+    <div class="venue">Under Review at ACMMM Brave New Ideas Track 2026</div>
+    <div class="links">
+        <a href="#">Paper (ArXiv Soon)</a>
+        <a href="https://github.com/krisanu-sarkar">GitHub</a>
+    </div>
+</header>
+
+<main>
+    <section class="abstract">
+        <h2>Abstract</h2>
+        <p>
+            We study cross-modal alignment between independently pretrained vision (DINOv2) and language (all-MiniLM-L6-v2) encoders using the functional map framework from computational geometry. While the framework reveals that independently trained models develop manifolds of comparable intrinsic complexity (normalized spectral distance 0.043), it also uncovers a "spectral complexity–orientation gap": the eigenvector bases are effectively unaligned. This gap defines a boundary condition for spectral alignment methods and motivates new diagnostic quantities for characterizing cross-modal representation compatibility.
+        </p>
+    </section>
+
+    <section>
+        <h2>The Functional Map Framework</h2>
+        <p>
+            Functional maps reformulate correspondence between two manifolds as a compact linear operator \(C \in \mathbb{R}^{k \times k}\) between their Laplace–Beltrami spectral bases. Given two manifolds \(\mathcal{M}_1, \mathcal{M}_2\), a pointwise map \(T: \mathcal{M}_1 \to \mathcal{M}_2\) induces a linear operator represented by \(C\) in the truncated spectral basis.
+        </p>
+        <div class="math-block">
+            \[ \mathcal{L}_m \phi_{m,j} = \lambda_{m,j} \phi_{m,j}, \quad 0 = \lambda_{m,1} \leq \lambda_{m,2} \leq \dots \leq \lambda_{m,k_s+1} \]
+        </div>
+        <p>
+            The functional map \(C\) is obtained by solving a regularized least-squares problem:
+        </p>
+        <div class="math-block">
+            \[ C^* = \text{argmin}_C \|CA - B\|_2^2 + \lambda_1 \|C\Lambda_v - \Lambda_t C\|_2^2 + \lambda_2 \|C\|_2^2 \]
+        </div>
+    </section>
+
+    <section>
+        <h2>Spectral Analysis & Diagnostics</h2>
+        <div class="figure">
+            <img src="spectral_analysis.png" alt="Spectral Analysis">
+            <div class="caption">Figure 1: Laplacian Eigenvalue Spectra and Functional Map Diagnostics. The spectra (top-left) are remarkably similar, but the functional map matrix (bottom-left) shows poor diagonal dominance, indicating unaligned bases.</div>
+        </div>
+        <p>
+            We propose three diagnostic quantities to characterize geometric compatibility:
+        </p>
+        <ul>
+            <li><strong>Normalized Spectral Distance:</strong> Measures similarity in intrinsic complexity.</li>
+            <li><strong>Diagonal Dominance:</strong> Indicates shared spectral orientation.</li>
+            <li><strong>Orthogonality Error:</strong> Measures how close the correspondence is to an isometry.</li>
+        </ul>
+        <p>
+            Our findings show a <strong>Spectral Complexity–Orientation Gap</strong>: models converge in <em>how much</em> structure they capture (similar eigenvalues) but not in <em>how they organize</em> it (unaligned eigenvectors).
+        </p>
+    </section>
+
+    <section>
+        <h2>Experimental Results</h2>
+        <div class="figure">
+            <img src="results.png" alt="Retrieval Results">
+            <div class="caption">Figure 2: Cross-modal retrieval performance (Image to Text). Functional maps (FMap) are compared against Procrustes, CCA, and Relative Representations.</div>
+        </div>
+        <p>
+            While functional maps provide deep geometric insight, they currently underperform simpler baselines like Procrustes alignment for retrieval. This is primarily because the isometry assumption—that the mapping preserves distances perfectly—does not hold for independently trained encoders.
+        </p>
+        <div class="figure">
+            <img src="truncation_effect.png" alt="Truncation Effect">
+            <div class="caption">Figure 3: Effect of spectral truncation on retrieval performance. Increasing the spectral dimension \(k\) generally improves recall but highlights the orientation gap.</div>
+        </div>
+    </section>
+
+    <section>
+        <h2>Conclusion</h2>
+        <p>
+            This work provides a finer-grained measurement tool for the Platonic Representation Hypothesis. By separating eigenvalue spectra (complexity) from eigenvector correspondence (orientation), we show that while foundation models converge toward shared statistical representations, their internal coordinate systems remain decoupled.
+        </p>
+    </section>
+</main>
+
+<footer>
+    &copy; 2026 Krisanu Sarkar. Built for ACMMM 2026.
+</footer>
+
+</body>
+</html>
